@@ -132,9 +132,9 @@ Given the legal ambiguity about Annex III classification, a precautionary high-r
 ### Gap 3
 
 **Obligation:** Transparency and user information (Article 13)  
-**Current state:** The UI shows the agent's recommendation with reasoning. No formal disclosure of how the system works, what data it uses, or what its limitations are.  
+**Current state:** The UI shows the agent's recommendation with reasoning. The project README documents proxy metric limitations (Last.fm weekly ×4 proxy, estimated velocity, potential press undercounting for electronic artists). However, this information is not surfaced inside the interface at the point of use.  
 **Required state:** Users should receive clear information about the system's capabilities and limitations, how scores are calculated, and what human oversight applies.  
-**Remediation:** Add a "How this works" section to the interface explaining: data sources, scoring dimensions and weights, the major label check, the human override requirement, and known limitations (proxy metrics, no real-time Spotify data). This can be a simple modal or help page.  
+**Remediation:** Add a "How this works" modal or help tooltip inside the interface, pointing users to the README documentation and summarising the key limitations at the point of use: proxy metrics, estimated velocity, potential press undercounting for electronic artists. The README already contains the content — it just needs to be accessible within the tool itself.  
 **Escalation needed:** No.
 
 ---
@@ -192,7 +192,7 @@ The system was built by the consulting team (provider role). Believe, as the org
 
 2. **The deployed interface has no authentication.** Any person with the URL can access the system. Before any production use with real artist data or internal decisions, access must be restricted to authorised Believe staff.
 
-3. **The scoring model uses proxy metrics that are not disclosed to users.** Monthly listeners are estimated from weekly data (×4 multiplier), velocity is inferred from playcount ratios, and press coverage may undercount electronic-specialist outlets. Users should be informed of these limitations so they can weight the agent's recommendation appropriately.
+3. **The scoring model uses proxy metrics that are partially disclosed.** Monthly listeners are estimated from weekly data (×4 multiplier), velocity is inferred from playcount ratios, and press coverage may undercount electronic-specialist outlets. These limitations are documented in the project README. However, they are not surfaced to users at the point of use — inside the interface itself. A user relying on the agent's recommendation without reading the README would not be aware of these limitations. A brief in-app disclosure is recommended.
 
 **Recommended next steps**
 
