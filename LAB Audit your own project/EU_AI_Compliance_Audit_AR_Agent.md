@@ -213,7 +213,7 @@ This memo is not a legal opinion, a conformity assessment, or a certification. I
 
 **Component I minimized:** The Pinecone roster similarity search uses 25 **simulated** artist profiles, not real Believe data. In the audit, this matters because the similarity scores used to validate recommendations are based on fictional data. If a real Believe roster were used, the system's outputs would be more reliable — but it would also introduce real artist data into the pipeline, which could raise data governance questions if those artists had not consented to being used as benchmark profiles.
 
-**What I would have done differently:** I would have documented the scoring model and data sources in a structured technical file from the start of the project, rather than reconstructing it for compliance purposes. Designing with documentation-by-default would have made this audit significantly faster and more accurate.
+**What I would have done differently:** The scoring model, data sources, proxy metric limitations, and architecture are all documented in the README — so documentation-by-default was effectively practised. In hindsight, the gap is not documentation itself but **structure**: the README is written for developers and users, not for a compliance reviewer. A short separate technical file following EU AI Act Article 11 format (intended purpose, performance metrics, known limitations, data governance) would have made this audit significantly faster without requiring any new content — just reorganisation of what already existed.
 
 ---
 
