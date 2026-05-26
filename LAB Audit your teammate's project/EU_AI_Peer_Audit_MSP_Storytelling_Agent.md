@@ -17,14 +17,16 @@
 
 Reading the system brief and README, the following elements are most relevant to the compliance assessment:
 
-- The system generates **public-facing content** (Instagram captions, LinkedIn posts, carousel posts, reels) on behalf of a named individual practitioner (Julia G)
+- The system generates **public-facing content** (Instagram captions, LinkedIn posts, carousel posts, reels) on behalf of an MSP practitioner
 - The content relates to **psychological and transformational topics** — a sensitive domain
-- Content is generated from **copyrighted or proprietary source material** (MSP books, PDFs, transcripts) embedded in a Pinecone vector store
-- The system includes **Tavily internet research** which scrapes and summarises third-party web content
-- Outputs are **drafts saved to Airtable for human review** — not published automatically
-- The system **interacts with end users indirectly**: the practitioner reviews drafts and may publish them; the final audience is the practitioner's clients and followers
+- Content is generated from **proprietary MSP source material** (books, PDFs, transcripts) uploaded manually by the system owner and stored in a private Pinecone vector database. These are texts by authors working within the MSP methodology.
+- Web research is scoped to **two pre-approved MSP-related websites** (mentalspaceresearch.com and somsp.com) — not open-ended internet scraping via Tavily as initially understood from the README
+- Outputs are **drafts saved to Airtable for human review** — not published automatically. The status workflow (Needs Review → Approved / Needs Revision / Rejected / Published) requires deliberate human action before any publication
+- The system **interacts with end users indirectly**: the practitioner or a designated content manager reviews drafts; the final audience is the general public following MSP's social media and newsletter
 - The system is **scheduled to run autonomously every two days** without a human triggering each run
+- No individuals are profiled, scored, or assessed — outputs are entirely generated text (educational and promotional content)
 - No disclosure mechanism is described for audiences who consume the published content
+- The builder (JG) acts as both provider and deployer under the AI Act; the MSP practitioner is a deployer in practice; OpenAI is the GPAI provider
 
 ---
 
@@ -57,9 +59,9 @@ Reading the system brief and README, the following elements are most relevant to
 *Why it matters:* The system generates content on "psychological and transformational concepts" intended to attract clients to a therapeutic/coaching practice. If this content makes health claims, implies therapeutic efficacy, or could influence vulnerable individuals' decisions about their mental health, it may be subject to additional regulation beyond the AI Act (e.g. healthcare communications rules, consumer protection law).  
 *Provisional assumption:* The content is educational/promotional rather than clinical advice, but this should be verified.
 
-**Question 4 — Is the Tavily web research tool scraping and reproducing content from third-party websites?**  
-*Why it matters:* If the system summarises or paraphrases third-party web content and that content is included in published posts, this raises copyright questions separate from the AI Act.  
-*Provisional assumption:* Tavily provides summaries and context rather than verbatim reproduction, but the extent of reproduction is unclear from the README.
+**Question 4 — Are the two pre-approved websites (mentalspaceresearch.com and somsp.com) aware that their content is being systematically retrieved for commercial content generation?**  
+*Why it matters:* The updated brief clarifies that web research is scoped to two specific MSP-related websites rather than open-ended Tavily scraping. However, systematically retrieving and incorporating content from these sites into commercial social media posts may still require the site owners' permission, depending on their terms of use and applicable copyright law.  
+*Provisional assumption:* The sites are operated by parties connected to the MSP community, and permission may be implied or informal, but this has not been formally documented.
 
 **Question 5 — What happens if the AI generates content that is factually incorrect about MSP or mental health?**  
 *Why it matters:* The README acknowledges that "unsupported claims should be avoided" — implying the system could produce them. In a psychologically sensitive domain, inaccurate content could harm the practitioner's clients. The README does not describe any accuracy checks beyond the human review step.  
@@ -71,7 +73,7 @@ Reading the system brief and README, the following elements are most relevant to
 
 ### Section 1: System Summary
 
-The Mental Space Psychology AI Storytelling Agent is a content generation tool built for a practitioner named Julia G, who works in the Mental Space Psychology field. The system takes a topic as input, retrieves relevant information from a proprietary vector database of MSP source documents, enriches it with Tavily web research, and uses OpenAI to generate multi-platform content drafts including Instagram captions, LinkedIn posts, carousel outlines, and reel ideas. Drafts are saved to Airtable for human review and email notifications are sent via n8n. The system runs on a two-day automated schedule. No content is published automatically — a human review step precedes publication.
+The Mental Space Psychology AI Storytelling Agent is an automated content drafting tool built for an MSP practitioner. The system takes a topic as input — either entered manually or injected by a scheduled workflow — retrieves relevant information from a private Pinecone vector database of proprietary MSP source documents, enriches it with content from two pre-approved MSP websites (mentalspaceresearch.com and somsp.com), and uses OpenAI to generate a structured multi-platform content package: Instagram captions, LinkedIn posts, carousel outlines, reel ideas, hooks, SEO keywords, and source references. Drafts are saved to Airtable with status "Needs Review" and email notifications are sent via n8n. The system runs on a two-day automated schedule. No content is published automatically — a human reviewer must explicitly change the status to "Approved" or "Published" in Airtable before any content reaches a publication platform. No individuals are profiled, scored, or assessed at any point.
 
 ---
 
@@ -89,12 +91,12 @@ There is a secondary ambiguity: the content concerns psychological and mental we
 
 | Role | Entity | Key AI Act obligations |
 |---|---|---|
-| **Provider** | Julian Granados (builder) | Technical documentation, transparency information design, accuracy and robustness measures, ensuring the system can be used within its intended purpose |
-| **Deployer** | Julia G (the practitioner using the system) | Ensure Article 50 disclosure obligations are met before publishing AI-generated content; maintain human oversight; do not publish content without review |
-| **Vendor — OpenAI** | OpenAI | GPAI provider under Articles 51–53. Must provide technical documentation and usage policies. Builder and deployer must use OpenAI within its documented intended purposes. |
-| **Vendor — Pinecone, Tavily, Airtable, n8n** | Various | Not AI systems under the Act. Data infrastructure and automation tools. No AI Act obligations apply directly. |
+| **Provider / Deployer** | JG (builder and operator) | Technical documentation, transparency information design, accuracy and robustness measures, ensuring Article 50 disclosure is implemented at publication. The builder self-identifies as acting in both roles — integrating OpenAI into a specific application for a defined professional use case. |
+| **Deployer in practice** | MSP practitioner (content manager) | Bears responsibility for reviewing outputs before public communication; must implement Article 50 disclosure at point of publication; cannot publish without deliberate human approval action. |
+| **Vendor — OpenAI** | OpenAI | GPAI provider under Articles 51–53. Provides technical documentation and usage policies. The builder and deployer must use the model within its documented intended purposes. |
+| **Vendor — Pinecone, Airtable, n8n, Render** | Various | Not AI systems under the Act. Data infrastructure, storage, and automation tools. No AI Act obligations apply directly. |
 
-**Note on deployer responsibility:** Julia G, as the deployer, bears direct responsibility for Article 50 compliance at the point of publication. The builder (Julian) can design for compliance, but the legal obligation to label AI-generated content rests with the person who publishes it.
+**Note on role split:** The system brief correctly identifies the dual role. JG as builder bears provider-level obligations (system design, documentation, transparency). The MSP practitioner as operator bears deployer-level obligations (human review, Article 50 disclosure at publication). Both roles carry obligations under the Act and both parties should be aware of their respective responsibilities.
 
 ---
 
@@ -138,11 +140,13 @@ There is a secondary ambiguity: the content concerns psychological and mental we
 **Finding 4 — Copyright and IP risk from RAG source material**  
 **Severity: Significant** (parallel legal issue, not AI Act)
 
-**Description:** The system embeds MSP books, PDFs, and transcripts into Pinecone for retrieval and uses them to generate commercial content. If any of these documents are copyrighted works not owned by Julia G or the client, their use in a commercial RAG pipeline may constitute copyright infringement under EU law (Copyright Directive 2019/790). This is not an AI Act issue but is a material legal risk that the builder and deployer should address before production use.
+**Description:** The system embeds MSP books, PDFs, and transcripts into Pinecone for retrieval and uses them to generate commercial content. The updated brief clarifies that the source documents are "books by authors working on MSP" — implying they may be third-party authored works. If these are copyrighted works not owned by the practitioner or the MSP organisation, their use in a commercial RAG pipeline may constitute copyright infringement under EU law (Copyright Directive 2019/790). This is not an AI Act issue but is a material legal risk. The brief states the material is "proprietary" but does not clarify who owns the copyright or what licence arrangements are in place.
 
-**Recommended action:** Document in the README that all source documents must be owned by or licensed to the deployer before ingestion. Add a step to the onboarding process requiring the deployer to confirm they have rights to use each document.
+Additionally, the web research layer retrieves content from two pre-approved websites (mentalspaceresearch.com and somsp.com). If these sites contain copyrighted material, systematic retrieval and incorporation into generated commercial content may require permission or licence.
 
-**Escalation needed:** Yes — legal review recommended to confirm that the use of the source documents in a RAG pipeline is covered by any existing licences or permissions.
+**Recommended action:** Document in the README that all source documents must be owned by or formally licensed to the deployer before ingestion. Add a step to the onboarding process requiring the deployer to confirm rights for each document. Confirm with the website owners that automated retrieval for commercial content generation is permitted.
+
+**Escalation needed:** Yes — legal review recommended to confirm that both the document embeddings and web retrieval are covered by existing licences or permissions.
 
 ---
 
